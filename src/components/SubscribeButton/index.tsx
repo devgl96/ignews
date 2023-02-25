@@ -1,4 +1,4 @@
-import { signIn, useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/client";
 import { useRouter } from "next/router";
 import { api } from "../../services/api";
 import { getStripeJs } from "../../services/stripe-js";
