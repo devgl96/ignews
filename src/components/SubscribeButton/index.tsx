@@ -1,4 +1,5 @@
-import { useSession, signIn } from "next-auth/client";
+import { Session } from "next-auth";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "../../services/api";
 import { getStripeJs } from "../../services/stripe-js";
@@ -8,22 +9,25 @@ interface SubscribeButtonProps {
   priceId: string;
 }
 
-interface SessionProps {
-  activeSubscription: boolean;
+interface SessionProps extends Session {
+  activeSubscription?: boolean;
 }
 
-export function SubscribeButton({ priceId }: SubscribeButtonProps) {
-  const [session] = useSession();
-  const router = useRouter();
-  // console.log("Session: ", session);
+type UseSessionProps = Omit<SessionProps, "expires">;
 
+export function SubscribeButton({ priceId }: SubscribeButtonProps) {
+  // const { data: session } = useSession();
+  const { data: session }: UseSessionProps = useSession();
+  const router = useRouter();
+
+  console.log("Session: ", session);
   async function handleSubscribe() {
     if (!session) {
       signIn("github");
       return;
     }
 
-    if (session?.activeSubscription) {
+    if (session.activeSubscription) {
       router.push("/posts");
       return;
     }
