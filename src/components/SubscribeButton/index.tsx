@@ -13,7 +13,7 @@ interface SessionProps {
 }
 
 export function SubscribeButton({ priceId }: SubscribeButtonProps) {
-  const { data: session } = useSession();
+  const [session] = useSession();
   const router = useRouter();
   // console.log("Session: ", session);
 
