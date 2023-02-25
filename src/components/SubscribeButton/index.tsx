@@ -6,20 +6,24 @@ import styles from "./styles.module.scss";
 
 interface SubscribeButtonProps {
   priceId: string;
-};
+}
+
+interface SessionProps {
+  activeSubscription: boolean;
+}
 
 export function SubscribeButton({ priceId }: SubscribeButtonProps) {
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   // console.log("Session: ", session);
 
   async function handleSubscribe() {
-    if(!session) {
+    if (!session) {
       signIn("github");
       return;
     }
 
-    if(session.activeSubscription) {
+    if (session?.activeSubscription) {
       router.push("/posts");
       return;
     }
